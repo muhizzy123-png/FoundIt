@@ -13,8 +13,6 @@ melaporkan barang yang ditemukan, dan menandai barang yang sudah diklaim.
 
 ## 2. Arsitektur
 
-![Architecture](docs/architecture.png)
-
 Alur request:
 Client -> API Gateway -> Lambda (LabRole) -> DynamoDB -> response JSON
 
