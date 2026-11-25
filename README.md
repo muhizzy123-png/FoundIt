@@ -20,7 +20,7 @@ Client -> API Gateway -> Lambda (LabRole) -> S3 -> response JSON
 |---|---|
 | API Gateway (HTTP API) | Pintu masuk HTTPS, routing ke Lambda |
 | AWS Lambda (Python 3.x) | Logika CRUD dan validasi input |
-| Amazon S3 (`kampus-lostfound-<nim>-items`) | Penyimpanan data, tiap Item = 1 objek JSON |
+| Amazon S3 (`kampus-lostfound-537712-items`) | Penyimpanan data, tiap Item = 1 objek JSON |
 | IAM (`LabRole`) | Execution role Lambda untuk akses S3 |
 | CloudWatch Logs | Log dan debugging |
 
