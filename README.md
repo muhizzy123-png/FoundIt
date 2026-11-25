@@ -3,7 +3,7 @@
 Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditemukan di lingkungan kampus.
 
 - **Mata kuliah:** Cloud Computing (AWS), Individual Project
-- **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
+- **Nama / NIM:** <nama> / <nim>
 - **Track:** C, Serverless (API Gateway + Lambda + DynamoDB)
 
 ## 1. Latar Belakang & Use Case
@@ -12,6 +12,8 @@ Aplikasi ini menyediakan REST API sederhana agar mahasiswa bisa melaporkan baran
 melaporkan barang yang ditemukan, dan menandai barang yang sudah diklaim.
 
 ## 2. Arsitektur
+
+![Architecture](docs/architecture.png)
 
 Alur request:
 Client -> API Gateway -> Lambda (LabRole) -> DynamoDB -> response JSON
@@ -64,8 +66,9 @@ curl -X POST https://<api-id>.execute-api.us-east-1.amazonaws.com/items \
 ## 6. Struktur Repository
 
 ```
-lost-and-found/
+kampus-lostfound-aws/
 ├── README.md
+├── .gitignore
 ├── docs/
 │   ├── architecture.png
 │   └── design-brief.md
@@ -85,7 +88,17 @@ lost-and-found/
 
 ## 8. Bukti Setup AWS (Week 12)
 
+| Bukti | File |
+|---|---|
+
 ## 9. Progress
+
+- [x] Pilih use case dan track
+- [ ] Design brief dan diagram
+- [ ] Tabel DynamoDB
+- [ ] Lambda handler dasar
+- [ ] Route API Gateway pertama
+- [ ] CRUD lengkap (Week berikutnya)
 
 ## 10. Catatan & Keterbatasan
 - Memakai AWS Learner Lab, sehingga resource mengikuti batas sesi lab.

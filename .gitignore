@@ -1,0 +1,38 @@
+# --- Credentials & secrets (PENTING) ---
+.env
+.env.*
+*.pem
+*.key
+credentials
+.aws/
+aws-credentials*
+secrets.*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# --- Lambda build artifacts ---
+*.zip
+package/
+build/
+dist/
+
+# --- Node.js (hapus kalau pakai Python) ---
+node_modules/
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Log & temporary ---
+*.log
+tmp/
+.tmp/
