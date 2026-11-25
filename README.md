@@ -3,7 +3,7 @@
 Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditemukan di lingkungan kampus.
 
 - **Mata kuliah:** Cloud Computing (AWS), Individual Project
-- **Nama / NIM:** <nama> / <nim>
+- **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
 - **Track:** C, Serverless (API Gateway + Lambda + DynamoDB)
 
 ## 1. Latar Belakang & Use Case
