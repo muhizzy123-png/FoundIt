@@ -65,15 +65,15 @@ curl -X POST https://<api-id>.execute-api.us-east-1.amazonaws.com/items \
 
 ```
 kampus-lostfound-aws/
-├── README.md
-├── .gitignore
-├── docs/
-│   ├── architecture.png
-│   └── design-brief.md
-├── lambda/
-│   └── handler.py
-├── events/          # contoh payload untuk test
-└── screenshots/     # bukti AWS
+  README.md
+  .gitignore
+  docs/
+    architecture.png
+    design-brief.md
+  lambda/
+    handler.py
+  events/
+  screenshots/
 ```
 
 ## 7. Deployment Plan
