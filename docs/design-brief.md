@@ -31,7 +31,7 @@ Client (Postman/curl) -> API Gateway (HTTP API) -> Lambda -> S3 -> response JSON
 |---|---|
 | API Gateway (HTTP API) | Menerima request HTTPS dan meneruskan ke Lambda sesuai route |
 | AWS Lambda (Python) | Menjalankan logika CRUD dan validasi input |
-| Amazon S3 `kampus-lostfound-<nim>-items` | Menyimpan data laporan, tiap Item sebagai satu objek JSON |
+| Amazon S3 `kampus-lostfound-537712-items` | Menyimpan data laporan, tiap Item sebagai satu objek JSON |
 | IAM `LabRole` | Execution role Lambda untuk membaca/menulis S3 dan menulis log |
 | CloudWatch Logs | Menyimpan log eksekusi Lambda untuk debugging |
 
