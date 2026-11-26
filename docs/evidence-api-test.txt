@@ -1,0 +1,26 @@
+Testing <FUNCTION_URL>
+
+PASS  GET /health                                    HTTP 200
+PASS  POST /items (valid)                            HTTP 201
+PASS  created item starts as open                    status=open
+PASS  POST /items (missing title)                    HTTP 400
+PASS  POST /items (bad type)                         HTTP 400
+PASS  POST /items (invalid JSON)                     HTTP 400
+PASS  GET /items                                     HTTP 200
+PASS  GET /items?status=open                         HTTP 200
+PASS  GET /items?status=bogus                        HTTP 400
+PASS  GET /items/{id}                                HTTP 200
+PASS  PUT /items/{id} (claim)                        HTTP 200
+PASS  status is now claimed                          status=claimed
+PASS  PUT /items/{id} (bad status)                   HTTP 400
+PASS  PUT /items/{id} (read-only field)              HTTP 400
+PASS  GET /items/{id} after update                   HTTP 200
+PASS  update persisted                               status=claimed
+PASS  DELETE /items/{id}                             HTTP 200
+PASS  GET /items/{id} after delete                   HTTP 404
+PASS  DELETE /items/{id} again                       HTTP 404
+PASS  GET /items/not-a-uuid                          HTTP 404
+PASS  GET /nope                                      HTTP 404
+PASS  PATCH /items                                   HTTP 405
+
+passed: 22  failed: 0

@@ -58,13 +58,20 @@ Diagram sumber (dapat diedit di draw.io): `docs/architecture.drawio`.
 | Operasi | Method | Path | Deskripsi |
 |---|---|---|---|
 | Create | POST | `/items` | Buat laporan baru, status awal `open` |
-| Read | GET | `/items` | Daftar semua barang, mendukung filter `?status=open` |
+| Read | GET | `/items` | Daftar semua barang, filter `?status=open\|claimed` dan `?type=lost\|found` |
 | Read | GET | `/items/{id}` | Detail satu barang |
 | Update | PUT | `/items/{id}` | Ubah data atau tandai `claimed` |
 | Delete | DELETE | `/items/{id}` | Hapus laporan |
 
 Format request/response menggunakan JSON. Kode status: 200 (OK), 201 (dibuat),
-400 (input tidak valid), 404 (tidak ditemukan), 500 (error server).
+400 (input tidak valid), 404 (tidak ditemukan), 405 (method tidak diizinkan),
+413 (body terlalu besar), 500 (error server). Endpoint tambahan `GET /health` menguji koneksi Lambda ke DynamoDB.
+
+Aturan input: `title`, `type`, `location`, `contact` wajib saat membuat laporan; `type` hanya `lost` atau `found`;
+`status` hanya `open` atau `claimed`; `PUT` bersifat partial update; `itemId`, `createdAt`, `updatedAt` diatur server.
+
+**Status implementasi:** kelima operasi CRUD sudah berjalan di AWS dan lulus 22 pengecekan uji
+end-to-end (`scripts/test_api.sh`, hasil di `docs/evidence-api-test.txt`).
 
 ## 6. IAM dan Security
 - Lambda menggunakan **LabRole** sebagai execution role, karena Learner Lab tidak mengizinkan
@@ -79,10 +86,12 @@ Format request/response menggunakan JSON. Kode status: 200 (OK), 201 (dibuat),
 1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId`, on-demand).
 2. Buat fungsi Lambda dengan execution role LabRole, lalu upload `lambda/handler.py`.
 3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di kode Lambda.
-4. Deploy stage dan catat Invoke URL.
+4. Catat Function URL dari konfigurasi Lambda.
 5. Uji dengan curl/Postman dan simpan bukti di `screenshots/`.
+
+Seluruh langkah dapat diulang dengan `bash scripts/deploy.sh` (idempoten), berguna karena resource lab dapat hilang saat sesi di-reset.
 
 ## 8. Target Week 12
 - Arsitektur dan desain final.
-- Tabel DynamoDB, fungsi Lambda starter, dan Function URL terbukti terhubung.
+- Tabel DynamoDB, fungsi Lambda, dan Function URL terbukti terhubung (tercapai, bahkan CRUD lengkap sudah berjalan).
 - Repository dengan README, starter code, dan commit bertahap.
