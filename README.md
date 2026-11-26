@@ -127,7 +127,7 @@ Contoh event untuk tab Test di console Lambda ada di folder `events/` (`health.j
 
 Catatan:
 - Screenshot di repository ini disamarkan (ID akun AWS dan Function URL ditutup kotak hitam). Versi asli dikirim langsung ke dosen.
-- Screenshot diambil pada sesi lab sebelumnya. Lab kemudian di-reset sehingga akun AWS, ID akun, dan Function URL berganti, dan seluruh resource dibangun ulang dengan `scripts/deploy.sh`. Hasil uji CRUD (`docs/evidence-api-test.txt`) berasal dari akun yang aktif sekarang.
+- Screenshot diambil pada sesi lab sebelumnya. Lab kemudian di-reset sehingga akun AWS, ID akun, dan Function URL berganti, dan seluruh resource dibangun ulang dengan `scripts/deploy.sh`. Hasil uji CRUD (`screenshots/crud-test.png` dan `docs/evidence-api-test.txt`) berasal dari akun yang aktif sekarang.
 
 | Bukti | File |
 |---|---|
@@ -138,7 +138,7 @@ Catatan:
 | Log group CloudWatch `/aws/lambda/LostFoundHandler` | `screenshots/cloudwatch-logs.png` |
 | Uji koneksi end-to-end: `GET /health` mengembalikan `{"status":"ok","table":"LostFoundItems"}` | `screenshots/curl-health.png` |
 | Log eksekusi Lambda (`START`, `END`, `REPORT`) lewat `aws logs tail` | `screenshots/logs-tail.png` |
-| Uji end-to-end seluruh endpoint CRUD (22 pengecekan, semua lulus) | `docs/evidence-api-test.txt` |
+| Uji end-to-end seluruh endpoint CRUD (22 pengecekan, semua lulus) | `screenshots/crud-test.png`, `docs/evidence-api-test.txt` |
 
 Rantai yang terbukti: Client -> Lambda Function URL -> Lambda (LabRole) -> DynamoDB, plus CloudWatch Logs.
 
