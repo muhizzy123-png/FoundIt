@@ -2,7 +2,6 @@
 
 Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditemukan di lingkungan kampus.
 
-- **Mata kuliah:** Cloud Computing (AWS), Individual Project
 - **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
 - **Track:** C, Serverless (Lambda Function URL + Lambda + DynamoDB)
 
@@ -81,10 +80,16 @@ curl -X POST https://<function-url-id>.lambda-url.us-east-1.on.aws/items \
 kampus-lostfound-aws/
   README.md
   .gitignore
+  config/
+    aws/
+      credentials.example
+      config.example
   docs/
     architecture.svg
     architecture.drawio
     design-brief.md
+    design-brief.pdf
+    evidence-api-test.txt
   lambda/
     handler.py
   events/
@@ -108,7 +113,7 @@ Semua langkah di atas dapat dijalankan ulang sekaligus (idempoten) dengan:
 bash scripts/deploy.sh
 ```
 
-Skrip memakai dua profile AWS CLI: `default` (credential Learner Lab, untuk Lambda dan Function URL) dan `iam` (IAM user, untuk membuat tabel DynamoDB). Nama profile dapat diubah lewat `LAMBDA_PROFILE` dan `DDB_PROFILE`. Credential disimpan di luar repository (`~/.aws/credentials`).
+Skrip memakai dua profile AWS CLI: `default` (credential Learner Lab, untuk Lambda dan Function URL) dan `iam` (IAM user, untuk membuat tabel DynamoDB). Nama profile dapat diubah lewat `LAMBDA_PROFILE` dan `DDB_PROFILE`. Credential disimpan di luar repository (`~/.aws/credentials`). Contoh format file ada di `config/aws/credentials.example` dan `config/aws/config.example` (hanya placeholder: salin ke `~/.aws/`, hapus `.example`, lalu isi dengan credential sendiri).
 
 Uji seluruh endpoint CRUD (membuat satu item sementara lalu menghapusnya):
 

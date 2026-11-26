@@ -1,0 +1,13 @@
+# Contoh ~/.aws/config (Windows: C:\Users\<nama>\.aws\config)
+# Salin ke lokasi itu dan hapus ".example" dari nama. Tidak berisi secret.
+#
+# Catatan format: di file config, profile selain default ditulis "[profile nama]".
+# Di file credentials, profile ditulis "[nama]" tanpa kata "profile".
+
+[default]
+region = us-east-1
+output = json
+
+[profile iam]
+region = us-east-1
+output = json

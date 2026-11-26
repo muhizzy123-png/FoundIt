@@ -1,7 +1,6 @@
 # Design Brief: Kampus Lost & Found (AWS Serverless)
 
 **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
-**Mata kuliah:** Cloud Computing (AWS), Individual Project
 **Track:** C, Serverless (Lambda Function URL + Lambda + DynamoDB)
 
 ## 1. Use Case
@@ -15,13 +14,7 @@ Kampus Lost & Found menyediakan REST API sederhana agar mahasiswa dapat:
 - mencari dan melihat daftar laporan,
 - menandai barang sebagai sudah diklaim, atau menghapus laporan.
 
-## 2. Track yang Dipilih dan Alasan
-**Track C, Serverless.** Alasannya:
-- Tidak perlu mengelola server, jadi fokus pada logika dan desain API.
-- Biaya mengikuti penggunaan (per request), sehingga hemat kredit Learner Lab.
-- Cocok untuk aplikasi CRUD sederhana dengan satu entity.
-
-## 3. Arsitektur
+## 2. Arsitektur
 Alur request:
 
 Client (Postman/curl) -> Lambda Function URL -> Lambda -> DynamoDB -> response JSON
@@ -40,7 +33,7 @@ Filter data dilakukan di Lambda setelah `Scan`, sehingga cocok untuk skala kecil
 
 Diagram sumber (dapat diedit di draw.io): `docs/architecture.drawio`.
 
-## 4. Data Entity: `Item`
+## 3. Data Entity: `Item`
 
 | Atribut | Tipe | Keterangan |
 |---|---|---|
@@ -53,7 +46,7 @@ Diagram sumber (dapat diedit di draw.io): `docs/architecture.drawio`.
 | `status` | String | `open` atau `claimed` |
 | `createdAt` | String | Timestamp ISO 8601 |
 
-## 5. Endpoint CRUD
+## 4. Endpoint CRUD
 
 | Operasi | Method | Path | Deskripsi |
 |---|---|---|---|
@@ -73,7 +66,7 @@ Aturan input: `title`, `type`, `location`, `contact` wajib saat membuat laporan;
 **Status implementasi:** kelima operasi CRUD sudah berjalan di AWS dan lulus 22 pengecekan uji
 end-to-end (`scripts/test_api.sh`, hasil di `docs/evidence-api-test.txt`).
 
-## 6. IAM dan Security
+## 5. IAM dan Security
 - Lambda menggunakan **LabRole** sebagai execution role, karena Learner Lab tidak mengizinkan
   pembuatan role baru. Role ini memberi akses ke DynamoDB dan CloudWatch Logs.
 - Akses DynamoDB hanya lewat Lambda, tabel tidak diekspos langsung ke publik.
@@ -82,7 +75,7 @@ end-to-end (`scripts/test_api.sh`, hasil di `docs/evidence-api-test.txt`).
 - Function URL diakses lewat HTTPS dan bersifat publik (`AuthType NONE`), sehingga validasi input di Lambda menjadi penjaga utama.
 - API Gateway tidak digunakan karena ditolak di Learner Lab (`apigateway:POST`).
 
-## 7. Rencana Deployment
+## 6. Rencana Deployment
 1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId`, on-demand).
 2. Buat fungsi Lambda dengan execution role LabRole, lalu upload `lambda/handler.py`.
 3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di kode Lambda.
@@ -90,8 +83,3 @@ end-to-end (`scripts/test_api.sh`, hasil di `docs/evidence-api-test.txt`).
 5. Uji dengan curl/Postman dan simpan bukti di `screenshots/`.
 
 Seluruh langkah dapat diulang dengan `bash scripts/deploy.sh` (idempoten), berguna karena resource lab dapat hilang saat sesi di-reset.
-
-## 8. Target Week 12
-- Arsitektur dan desain final.
-- Tabel DynamoDB, fungsi Lambda, dan Function URL terbukti terhubung (tercapai, bahkan CRUD lengkap sudah berjalan).
-- Repository dengan README, starter code, dan commit bertahap.
