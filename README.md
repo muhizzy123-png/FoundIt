@@ -86,21 +86,32 @@ kampus-lostfound-aws/
 1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId` String, on-demand, region us-east-1).
 2. Buat fungsi Lambda, upload `lambda/handler.py`, set execution role ke `LabRole`.
 3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di `handler.py`.
-4. Deploy stage dan catat Invoke URL.
+4. Catat Function URL dari konfigurasi Lambda.
 5. Uji dengan `curl` / Postman.
 
 ## 8. Bukti Setup AWS (Week 12)
 
+Catatan: screenshot di repository ini disamarkan (ID akun AWS dan Function URL ditutup kotak hitam). Versi asli dikirim langsung ke dosen.
+
 | Bukti | File |
 |---|---|
+| Tabel DynamoDB `LostFoundItems` berstatus Active (partition key `itemId`, on-demand) | `screenshots/dynamodb-table.png` |
+| Fungsi Lambda `LostFoundHandler` dan Function URL | `screenshots/lambda-function-url.png` |
+| Environment variable `TABLE_NAME` = `LostFoundItems` | `screenshots/lambda-env.png` |
+| Execution role Lambda = `LabRole` | `screenshots/lambda-labrole.png` |
+| Log group CloudWatch `/aws/lambda/LostFoundHandler` | `screenshots/cloudwatch-logs.png` |
+| Uji koneksi end-to-end: `GET /health` mengembalikan `{"status":"ok","table":"LostFoundItems"}` | `screenshots/curl-health.png` |
+| Log eksekusi Lambda (`START`, `END`, `REPORT`) lewat `aws logs tail` | `screenshots/logs-tail.png` |
+
+Rantai yang terbukti: Client -> Lambda Function URL -> Lambda (LabRole) -> DynamoDB, plus CloudWatch Logs.
 
 ## 9. Progress
 
 - [x] Pilih use case dan track
-- [ ] Design brief dan diagram
-- [ ] Tabel DynamoDB
-- [ ] Lambda handler dasar
-- [ ] Function URL aktif dan routing pertama
+- [x] Design brief dan diagram
+- [x] Tabel DynamoDB
+- [x] Lambda handler dasar (`/health`)
+- [x] Function URL aktif dan routing pertama (`GET /health`)
 - [ ] CRUD lengkap (Week berikutnya)
 
 ## 10. Catatan & Keterbatasan
