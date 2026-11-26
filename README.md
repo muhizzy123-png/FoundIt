@@ -78,6 +78,8 @@ kampus-lostfound-aws/
   lambda/
     handler.py
   events/
+  scripts/
+    deploy.sh
   screenshots/
 ```
 
@@ -88,6 +90,14 @@ kampus-lostfound-aws/
 3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di `handler.py`.
 4. Catat Function URL dari konfigurasi Lambda.
 5. Uji dengan `curl` / Postman.
+
+Semua langkah di atas dapat dijalankan ulang sekaligus (idempoten) dengan:
+
+```bash
+bash scripts/deploy.sh
+```
+
+Skrip memakai dua profile AWS CLI: `default` (credential Learner Lab, untuk Lambda dan Function URL) dan `iam` (IAM user, untuk membuat tabel DynamoDB). Nama profile dapat diubah lewat `LAMBDA_PROFILE` dan `DDB_PROFILE`. Credential disimpan di luar repository (`~/.aws/credentials`).
 
 ## 8. Bukti Setup AWS (Week 12)
 
