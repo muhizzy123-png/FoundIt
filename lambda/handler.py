@@ -1,4 +1,4 @@
-"""Lambda handler for the Kampus Lost & Found API (Lambda Function URL + DynamoDB).
+"""Lambda handler for the FoundIt API (Lambda Function URL + DynamoDB).
 
 Routes (payload format 2.0 from a Function URL):
     GET    /health        connectivity check (Lambda -> DynamoDB)

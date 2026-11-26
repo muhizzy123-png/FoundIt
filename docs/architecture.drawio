@@ -98,7 +98,7 @@
         <mxCell id="MOkciyo4EUZEhZYwQp58-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Client&lt;div&gt;(curl / Postman)&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="89" x="84.5" y="520" as="geometry" />
         </mxCell>
-        <mxCell id="MOkciyo4EUZEhZYwQp58-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=14;" value="Kampus Lost &amp;amp; Found Arsitektur Serverless (Track C)" vertex="1">
+        <mxCell id="MOkciyo4EUZEhZYwQp58-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=14;" value="FoundIt&lt;br&gt;Arsitektur Serverless (Track C)" vertex="1">
           <mxGeometry height="30" width="210" x="390" y="170" as="geometry" />
         </mxCell>
         <mxCell id="MOkciyo4EUZEhZYwQp58-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fontStyle=0" value="&lt;div&gt;&lt;b&gt;IAM, Security, dan Network&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;IAM: Lambda memakai LabRole untuk akses DynamoDB dan CloudWatch Logs.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Security: HTTPS, validasi input di Lambda, tabel DynamoDB tidak diekspos publik, tanpa credential di repo.&lt;/div&gt;&lt;div style=&quot;&quot;&gt;Network: tanpa VPC, semua layanan terkelola AWS, entry point publik hanya Function URL.&lt;/div&gt;" vertex="1">

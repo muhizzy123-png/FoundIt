@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Idempotent deploy for Kampus Lost & Found (AWS Learner Lab).
+# Idempotent deploy for FoundIt (AWS Learner Lab).
 #
 #   bash scripts/deploy.sh
 #

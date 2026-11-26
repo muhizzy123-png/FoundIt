@@ -1,4 +1,4 @@
-# Lost & Found Kampus
+# FoundIt - Kampus Lost & Found
 
 Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditemukan di lingkungan kampus.
 

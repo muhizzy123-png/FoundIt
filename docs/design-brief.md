@@ -1,4 +1,4 @@
-# Design Brief: Kampus Lost & Found (AWS Serverless)
+# Design Brief: FoundIt (Kampus Lost & Found, AWS Serverless)
 
 **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
 **Track:** C, Serverless (Lambda Function URL + Lambda + DynamoDB)
@@ -8,7 +8,7 @@ Barang yang hilang di lingkungan kampus sering tidak kembali ke pemiliknya karen
 tempat terpusat untuk melapor atau mencari. Laporan biasanya tersebar di grup chat dan papan
 pengumuman, sehingga sulit dicari dan cepat tenggelam.
 
-Kampus Lost & Found menyediakan REST API sederhana agar mahasiswa dapat:
+FoundIt menyediakan REST API sederhana agar mahasiswa dapat:
 - melaporkan barang yang hilang,
 - melaporkan barang yang ditemukan,
 - mencari dan melihat daftar laporan,
