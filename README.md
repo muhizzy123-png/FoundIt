@@ -4,7 +4,7 @@ Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditem
 
 - **Mata kuliah:** Cloud Computing (AWS), Individual Project
 - **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
-- **Track:** C, Serverless (API Gateway + Lambda + DynamoDB)
+- **Track:** C, Serverless (Lambda Function URL + Lambda + DynamoDB)
 
 ## 1. Latar Belakang & Use Case
 Barang yang hilang di kampus sering tidak kembali karena tidak ada tempat terpusat untuk melapor.
@@ -13,12 +13,14 @@ melaporkan barang yang ditemukan, dan menandai barang yang sudah diklaim.
 
 ## 2. Arsitektur
 
+![Architecture](docs/architecture.svg)
+
 Alur request:
-Client -> API Gateway -> Lambda (LabRole) -> DynamoDB -> response JSON
+Client -> Lambda Function URL -> Lambda (LabRole) -> DynamoDB -> response JSON
 
 | Komponen | Fungsi |
 |---|---|
-| API Gateway (HTTP API) | Pintu masuk HTTPS, routing ke Lambda |
+| Lambda Function URL | Pintu masuk HTTPS publik untuk Lambda (routing dilakukan di `handler.py`) |
 | AWS Lambda (Python 3.x) | Logika CRUD dan validasi input |
 | DynamoDB (`LostFoundItems`) | Penyimpanan data, on-demand |
 | IAM (`LabRole`) | Execution role Lambda untuk akses DynamoDB |
@@ -50,7 +52,7 @@ Client -> API Gateway -> Lambda (LabRole) -> DynamoDB -> response JSON
 Contoh request:
 
 ```bash
-curl -X POST https://<api-id>.execute-api.us-east-1.amazonaws.com/items \
+curl -X POST https://<function-url-id>.lambda-url.us-east-1.on.aws/items \
   -H "Content-Type: application/json" \
   -d '{"title":"Dompet hitam","type":"lost","location":"Gedung C","contact":"08xx"}'
 ```
@@ -60,7 +62,8 @@ curl -X POST https://<api-id>.execute-api.us-east-1.amazonaws.com/items \
 - Input divalidasi di Lambda sebelum ditulis ke DynamoDB.
 - Tabel DynamoDB tidak diekspos langsung, akses hanya lewat Lambda dengan LabRole.
 - Tidak ada credential di dalam repo.
-- <opsional: API key / usage plan>
+- API Gateway tidak tersedia di Learner Lab (ditolak `apigateway:POST`), sehingga Lambda Function URL dipakai sebagai entry point.
+- Function URL bersifat publik (`AuthType NONE`), sehingga validasi input di Lambda menjadi penjaga utama.
 
 ## 6. Struktur Repository
 
@@ -69,7 +72,8 @@ kampus-lostfound-aws/
   README.md
   .gitignore
   docs/
-    architecture.png
+    architecture.svg
+    architecture.drawio
     design-brief.md
   lambda/
     handler.py
@@ -81,7 +85,7 @@ kampus-lostfound-aws/
 
 1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId` String, on-demand, region us-east-1).
 2. Buat fungsi Lambda, upload `lambda/handler.py`, set execution role ke `LabRole`.
-3. Buat HTTP API di API Gateway, tambahkan route sesuai tabel endpoint, integrasikan dengan Lambda.
+3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di `handler.py`.
 4. Deploy stage dan catat Invoke URL.
 5. Uji dengan `curl` / Postman.
 
@@ -96,7 +100,7 @@ kampus-lostfound-aws/
 - [ ] Design brief dan diagram
 - [ ] Tabel DynamoDB
 - [ ] Lambda handler dasar
-- [ ] Route API Gateway pertama
+- [ ] Function URL aktif dan routing pertama
 - [ ] CRUD lengkap (Week berikutnya)
 
 ## 10. Catatan & Keterbatasan

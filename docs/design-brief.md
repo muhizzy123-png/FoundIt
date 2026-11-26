@@ -2,7 +2,7 @@
 
 **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
 **Mata kuliah:** Cloud Computing (AWS), Individual Project
-**Track:** C, Serverless (API Gateway + Lambda + DynamoDB)
+**Track:** C, Serverless (Lambda Function URL + Lambda + DynamoDB)
 
 ## 1. Use Case
 Barang yang hilang di lingkungan kampus sering tidak kembali ke pemiliknya karena tidak ada
@@ -24,11 +24,11 @@ Kampus Lost & Found menyediakan REST API sederhana agar mahasiswa dapat:
 ## 3. Arsitektur
 Alur request:
 
-Client (Postman/curl) -> API Gateway (HTTP API) -> Lambda -> DynamoDB -> response JSON
+Client (Postman/curl) -> Lambda Function URL -> Lambda -> DynamoDB -> response JSON
 
 | Komponen | Peran |
 |---|---|
-| API Gateway (HTTP API) | Menerima request HTTPS dan meneruskan ke Lambda sesuai route |
+| Lambda Function URL | Endpoint HTTPS publik yang langsung memanggil Lambda; routing `/items` dilakukan di kode Lambda |
 | AWS Lambda (Python) | Menjalankan logika CRUD dan validasi input |
 | DynamoDB `LostFoundItems` | Menyimpan data laporan (mode on-demand) |
 | IAM `LabRole` | Execution role Lambda untuk membaca/menulis DynamoDB dan menulis log |
@@ -36,7 +36,9 @@ Client (Postman/curl) -> API Gateway (HTTP API) -> Lambda -> DynamoDB -> respons
 
 Filter data dilakukan di Lambda setelah `Scan`, sehingga cocok untuk skala kecil (ratusan item).
 
-Diagram: lihat `docs/architecture.png`.
+![Architecture](architecture.svg)
+
+Diagram sumber (dapat diedit di draw.io): `docs/architecture.drawio`.
 
 ## 4. Data Entity: `Item`
 
@@ -70,16 +72,17 @@ Format request/response menggunakan JSON. Kode status: 200 (OK), 201 (dibuat),
 - Akses DynamoDB hanya lewat Lambda, tabel tidak diekspos langsung ke publik.
 - Input divalidasi di Lambda (field wajib, nilai `type` dan `status` hanya yang diizinkan).
 - Tidak ada credential atau access key di repository; `.gitignore` memblokir file sensitif.
-- API Gateway diakses lewat HTTPS.
+- Function URL diakses lewat HTTPS dan bersifat publik (`AuthType NONE`), sehingga validasi input di Lambda menjadi penjaga utama.
+- API Gateway tidak digunakan karena ditolak di Learner Lab (`apigateway:POST`).
 
 ## 7. Rencana Deployment
 1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId`, on-demand).
 2. Buat fungsi Lambda dengan execution role LabRole, lalu upload `lambda/handler.py`.
-3. Buat HTTP API di API Gateway, tambahkan route sesuai tabel endpoint, integrasikan ke Lambda.
+3. Aktifkan Function URL (`AuthType NONE`) pada fungsi Lambda, dan implementasikan routing sesuai tabel endpoint di kode Lambda.
 4. Deploy stage dan catat Invoke URL.
 5. Uji dengan curl/Postman dan simpan bukti di `screenshots/`.
 
 ## 8. Target Week 12
 - Arsitektur dan desain final.
-- Tabel DynamoDB, fungsi Lambda starter, dan satu route API Gateway terbukti terhubung.
+- Tabel DynamoDB, fungsi Lambda starter, dan Function URL terbukti terhubung.
 - Repository dengan README, starter code, dan commit bertahap.
