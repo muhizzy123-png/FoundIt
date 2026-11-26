@@ -4,7 +4,7 @@ Aplikasi serverless di AWS untuk melaporkan dan mencari barang hilang atau ditem
 
 - **Mata kuliah:** Cloud Computing (AWS), Individual Project
 - **Nama / NIM:** Muhammad Izzuddin Prakoso / 24/537712/TK/59618
-- **Track:** C, Serverless (API Gateway + Lambda + S3)
+- **Track:** C, Serverless (API Gateway + Lambda + DynamoDB)
 
 ## 1. Latar Belakang & Use Case
 Barang yang hilang di kampus sering tidak kembali karena tidak ada tempat terpusat untuk melapor.
@@ -14,23 +14,21 @@ melaporkan barang yang ditemukan, dan menandai barang yang sudah diklaim.
 ## 2. Arsitektur
 
 Alur request:
-Client -> API Gateway -> Lambda (LabRole) -> S3 -> response JSON
+Client -> API Gateway -> Lambda (LabRole) -> DynamoDB -> response JSON
 
 | Komponen | Fungsi |
 |---|---|
 | API Gateway (HTTP API) | Pintu masuk HTTPS, routing ke Lambda |
 | AWS Lambda (Python 3.x) | Logika CRUD dan validasi input |
-| Amazon S3 (`kampus-lostfound-537712-items`) | Penyimpanan data, tiap Item = 1 objek JSON |
-| IAM (`LabRole`) | Execution role Lambda untuk akses S3 |
+| DynamoDB (`LostFoundItems`) | Penyimpanan data, on-demand |
+| IAM (`LabRole`) | Execution role Lambda untuk akses DynamoDB |
 | CloudWatch Logs | Log dan debugging |
-
-Catatan: S3 dipakai sebagai penyimpanan karena DynamoDB tidak tersedia di AWS Learner Lab yang digunakan.
 
 ## 3. Data Entity: `Item`
 
 | Atribut | Tipe | Keterangan |
 |---|---|---|
-| `itemId` | String | UUID, dipakai sebagai nama objek `items/<itemId>.json` |
+| `itemId` | String (PK) | UUID |
 | `title` | String | Nama barang |
 | `description` | String | Ciri-ciri barang |
 | `type` | String | `lost` atau `found` |
@@ -59,8 +57,8 @@ curl -X POST https://<api-id>.execute-api.us-east-1.amazonaws.com/items \
 
 ## 5. Security & IAM
 - Lambda memakai `LabRole` (Learner Lab tidak mengizinkan pembuatan role baru).
-- Input divalidasi di Lambda sebelum ditulis ke S3.
-- Bucket S3 bersifat private (Block Public Access aktif), akses hanya lewat Lambda dengan LabRole.
+- Input divalidasi di Lambda sebelum ditulis ke DynamoDB.
+- Tabel DynamoDB tidak diekspos langsung, akses hanya lewat Lambda dengan LabRole.
 - Tidak ada credential di dalam repo.
 - <opsional: API key / usage plan>
 
@@ -81,7 +79,7 @@ kampus-lostfound-aws/
 
 ## 7. Deployment Plan
 
-1. Buat bucket S3 `kampus-lostfound-<nim>-items` (region us-east-1, Block Public Access aktif).
+1. Buat tabel DynamoDB `LostFoundItems` (partition key `itemId` String, on-demand, region us-east-1).
 2. Buat fungsi Lambda, upload `lambda/handler.py`, set execution role ke `LabRole`.
 3. Buat HTTP API di API Gateway, tambahkan route sesuai tabel endpoint, integrasikan dengan Lambda.
 4. Deploy stage dan catat Invoke URL.
@@ -96,7 +94,7 @@ kampus-lostfound-aws/
 
 - [x] Pilih use case dan track
 - [ ] Design brief dan diagram
-- [ ] Bucket S3
+- [ ] Tabel DynamoDB
 - [ ] Lambda handler dasar
 - [ ] Route API Gateway pertama
 - [ ] CRUD lengkap (Week berikutnya)
@@ -104,4 +102,4 @@ kampus-lostfound-aws/
 ## 10. Catatan & Keterbatasan
 - Memakai AWS Learner Lab, sehingga resource mengikuti batas sesi lab.
 - Region: us-east-1.
-- Filter data (`?status=open`) dilakukan di Lambda karena S3 tidak punya query, sehingga cocok untuk skala kecil.
+- Filter data (`?status=open`) dilakukan di Lambda setelah `Scan`, sehingga cocok untuk skala kecil.
