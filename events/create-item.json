@@ -1,0 +1,8 @@
+{
+  "version": "2.0",
+  "rawPath": "/items",
+  "requestContext": { "http": { "method": "POST", "path": "/items" } },
+  "headers": { "content-type": "application/json" },
+  "isBase64Encoded": false,
+  "body": "{\"title\":\"Dompet hitam\",\"type\":\"lost\",\"location\":\"Gedung C lantai 2\",\"contact\":\"08123456789\",\"description\":\"Ada KTM di dalamnya\"}"
+}

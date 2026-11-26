@@ -1,0 +1,7 @@
+{
+  "version": "2.0",
+  "rawPath": "/items",
+  "rawQueryString": "status=open",
+  "queryStringParameters": { "status": "open" },
+  "requestContext": { "http": { "method": "GET", "path": "/items" } }
+}

@@ -49,6 +49,16 @@ Client -> Lambda Function URL -> Lambda (LabRole) -> DynamoDB -> response JSON
 | PUT | `/items/{id}` | Update data / ubah status |
 | DELETE | `/items/{id}` | Hapus laporan |
 
+Tambahan: `GET /health` untuk uji koneksi Lambda ke DynamoDB, dan filter `?status=open|claimed` serta `?type=lost|found` pada `GET /items`.
+
+Aturan input:
+- `title`, `type`, `location`, `contact` wajib saat membuat laporan. `description` opsional.
+- `type` hanya `lost` atau `found`. `status` hanya `open` atau `claimed` (otomatis `open` saat dibuat).
+- Batas panjang: `title` 100, `contact` 100, `location` 200, `description` 500 karakter.
+- `PUT` bersifat partial update. `itemId`, `createdAt`, dan `updatedAt` diatur server dan tidak dapat diubah.
+
+Kode status: `200` (OK), `201` (dibuat), `400` (input tidak valid), `404` (tidak ditemukan), `405` (method tidak diizinkan), `413` (body terlalu besar), `500` (error server).
+
 Contoh request:
 
 ```bash
@@ -80,6 +90,7 @@ kampus-lostfound-aws/
   events/
   scripts/
     deploy.sh
+    test_api.sh
   screenshots/
 ```
 
@@ -98,6 +109,14 @@ bash scripts/deploy.sh
 ```
 
 Skrip memakai dua profile AWS CLI: `default` (credential Learner Lab, untuk Lambda dan Function URL) dan `iam` (IAM user, untuk membuat tabel DynamoDB). Nama profile dapat diubah lewat `LAMBDA_PROFILE` dan `DDB_PROFILE`. Credential disimpan di luar repository (`~/.aws/credentials`).
+
+Uji seluruh endpoint CRUD (membuat satu item sementara lalu menghapusnya):
+
+```bash
+bash scripts/test_api.sh https://<function-url-id>.lambda-url.us-east-1.on.aws
+```
+
+Contoh event untuk tab Test di console Lambda ada di folder `events/` (`health.json`, `create-item.json`, `list-items.json`).
 
 ## 8. Bukti Setup AWS (Week 12)
 
